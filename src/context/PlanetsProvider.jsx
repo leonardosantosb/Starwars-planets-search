@@ -4,6 +4,7 @@ import PlanetsContext from './PlanetsContext';
 
 export function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [pesquisa, setPesquisa] = useState('');
 
   function getApi() {
     fetch('https://swapi.dev/api/planets')
@@ -13,7 +14,6 @@ export function PlanetsProvider({ children }) {
           delete result.residents;
           return result;
         });
-
         setPlanets(planetas);
       });
   }
@@ -22,6 +22,8 @@ export function PlanetsProvider({ children }) {
     planets,
     setPlanets,
     getApi,
+    pesquisa,
+    setPesquisa,
   };
   return (
     <PlanetsContext.Provider value={ values }>

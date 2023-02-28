@@ -2,11 +2,11 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { getApi, planets } = useContext(PlanetsContext);
-
+  const { getApi, planets, pesquisa } = useContext(PlanetsContext);
   useEffect(() => {
     getApi();
   }, []);
+
   return (
     <table>
       <thead>
@@ -27,49 +27,25 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        { planets.map((planet) => (
-          <tr key={ planet.created }>
-            <td>
-              {planet.name}
-            </td>
-            <td>
-              {planet.rotation_period}
-            </td>
-            <td>
-              {planet.orbital_period}
-            </td>
-            <td>
-              {planet.diameter}
-            </td>
-            <td>
-              {planet.climate}
-            </td>
-            <td>
-              {planet.gravity}
-            </td>
-            <td>
-              {planet.terrain}
-            </td>
-            <td>
-              {planet.surface_water}
-            </td>
-            <td>
-              {planet.population}
-            </td>
-            <td>
-              {planet.films}
-            </td>
-            <td>
-              {planet.created}
-            </td>
-            <td>
-              {planet.edited}
-            </td>
-            <td>
-              {planet.url}
-            </td>
-          </tr>
-        )) }
+        {planets
+          .filter((planet) => planet.name.toLowerCase().includes(pesquisa.toLowerCase()))
+          .map((planet) => (
+            <tr key={ planet.created }>
+              <td>{planet.name}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
+              <td>{planet.climate}</td>
+              <td>{planet.gravity}</td>
+              <td>{planet.terrain}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
+              <td>{planet.films}</td>
+              <td>{planet.created}</td>
+              <td>{planet.edited}</td>
+              <td>{planet.url}</td>
+            </tr>
+          ))}
       </tbody>
     </table>
   );
