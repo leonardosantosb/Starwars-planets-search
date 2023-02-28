@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export function PlanetsProvider({ children }) {
@@ -9,6 +9,7 @@ export function PlanetsProvider({ children }) {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
   const [buttonFilter, setButtonFilter] = useState([]);
+  const [multiFilters, setMultiFilters] = useState([]);
   function getApi() {
     fetch('https://swapi.dev/api/planets')
       .then((response) => response.json())
@@ -21,10 +22,10 @@ export function PlanetsProvider({ children }) {
       });
   }
 
-  const values = {
+  const values = useMemo(() => ({
+    getApi,
     planets,
     setPlanets,
-    getApi,
     pesquisa,
     setPesquisa,
     coluna,
@@ -35,7 +36,9 @@ export function PlanetsProvider({ children }) {
     setValue,
     buttonFilter,
     setButtonFilter,
-  };
+    multiFilters,
+    setMultiFilters,
+  }), [planets, pesquisa, coluna, comparison, value, buttonFilter, multiFilters]);
   return (
     <PlanetsContext.Provider value={ values }>
       {children}

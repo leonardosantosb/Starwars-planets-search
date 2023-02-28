@@ -2,7 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { getApi, planets, pesquisa, buttonFilter } = useContext(PlanetsContext);
+  const
+    {
+      getApi,
+      planets,
+      pesquisa,
+      buttonFilter,
+      multiFilters,
+    } = useContext(PlanetsContext);
 
   useEffect(() => {
     getApi();
@@ -53,14 +60,14 @@ export default function Table() {
           trataDados().map((planet) => (
             <tr key={ planet.created }>
               <td>{planet.name}</td>
-              <td>{Number(planet.rotation_period)}</td>
-              <td>{Number(planet.orbital_period)}</td>
-              <td>{Number(planet.diameter)}</td>
+              <td>{planet.rotation_period}</td>
+              <td>{planet.orbital_period}</td>
+              <td>{planet.diameter}</td>
               <td>{planet.climate}</td>
               <td>{planet.gravity}</td>
               <td>{planet.terrain}</td>
-              <td>{Number(planet.surface_water)}</td>
-              <td>{Number(planet.population)}</td>
+              <td>{planet.surface_water}</td>
+              <td>{planet.population}</td>
               <td>{planet.films}</td>
               <td>{planet.created}</td>
               <td>{planet.edited}</td>
@@ -68,8 +75,8 @@ export default function Table() {
             </tr>
           ))
         }
-
-        {console.log(planets)}
+        {console.log(trataDados())}
+        {console.log(planets, multiFilters)}
       </tbody>
     </table>
   );
