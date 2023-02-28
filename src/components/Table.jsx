@@ -2,10 +2,32 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { getApi, planets, pesquisa } = useContext(PlanetsContext);
+  const { getApi, planets, pesquisa, buttonFilter } = useContext(PlanetsContext);
+
   useEffect(() => {
     getApi();
   }, []);
+
+  const trataDados = () => {
+    const filterPlanetName = planets.filter((planet) => planet.name.toLowerCase()
+      .includes(pesquisa.toLowerCase()));
+    const filterNameNCondition = filterPlanetName.filter((plan) => {
+      const filterResults = buttonFilter.map(({ value, comparison, coluna }) => {
+        switch (comparison) {
+        case 'maior que':
+          return Number(plan[coluna]) > Number(value);
+        case 'menor que':
+          return Number(plan[coluna]) < Number(value);
+        case 'igual a':
+          return Number(plan[coluna]) === Number(value);
+        default:
+          return true;
+        }
+      });
+      return filterResults.every((el) => el);
+    });
+    return filterNameNCondition;
+  };
 
   return (
     <table>
@@ -27,25 +49,27 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {planets
-          .filter((planet) => planet.name.toLowerCase().includes(pesquisa.toLowerCase()))
-          .map((planet) => (
+        {
+          trataDados().map((planet) => (
             <tr key={ planet.created }>
               <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
+              <td>{Number(planet.rotation_period)}</td>
+              <td>{Number(planet.orbital_period)}</td>
+              <td>{Number(planet.diameter)}</td>
               <td>{planet.climate}</td>
               <td>{planet.gravity}</td>
               <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
+              <td>{Number(planet.surface_water)}</td>
+              <td>{Number(planet.population)}</td>
               <td>{planet.films}</td>
               <td>{planet.created}</td>
               <td>{planet.edited}</td>
               <td>{planet.url}</td>
             </tr>
-          ))}
+          ))
+        }
+
+        {console.log(planets)}
       </tbody>
     </table>
   );
