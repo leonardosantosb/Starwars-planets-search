@@ -7,20 +7,26 @@ export default function ButtonFilter() {
     value,
     comparison,
     coluna,
-    buttonFilter } = useContext(PlanetsContext);
+    buttonFilter,
+    arrayColumn,
+    setArrayColumn,
+    setColuna } = useContext(PlanetsContext);
 
   return (
-    <>
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ () => (setButtonFilter([...buttonFilter, { value,
+    <button
+      type="button"
+      data-testid="button-filter"
+      onClick={ () => {
+        setArrayColumn(
+          arrayColumn.filter((colums) => colums !== coluna),
+        );
+        setColuna(arrayColumn.filter((colums) => colums !== coluna)[0]);
+        setButtonFilter([...buttonFilter, { value,
           comparison,
-          coluna }])) }
-      >
-        FILTRAR
-      </button>
-      { console.log(buttonFilter)}
-    </>
+          coluna }]);
+      } }
+    >
+      FILTRAR
+    </button>
   );
 }

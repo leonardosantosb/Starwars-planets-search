@@ -8,7 +8,6 @@ export default function Table() {
       planets,
       pesquisa,
       buttonFilter,
-      multiFilters,
     } = useContext(PlanetsContext);
 
   useEffect(() => {
@@ -37,47 +36,59 @@ export default function Table() {
   };
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Rotation Period</th>
-          <th>Orbital Period</th>
-          <th>Diameter</th>
-          <th>Climate</th>
-          <th>Gravity</th>
-          <th>Terrain</th>
-          <th>Surface Water</th>
-          <th>Population</th>
-          <th>Films</th>
-          <th>Created</th>
-          <th>Edited</th>
-          <th>URL</th>
-        </tr>
-      </thead>
-      <tbody>
-        {
-          trataDados().map((planet) => (
-            <tr key={ planet.created }>
-              <td>{planet.name}</td>
-              <td>{planet.rotation_period}</td>
-              <td>{planet.orbital_period}</td>
-              <td>{planet.diameter}</td>
-              <td>{planet.climate}</td>
-              <td>{planet.gravity}</td>
-              <td>{planet.terrain}</td>
-              <td>{planet.surface_water}</td>
-              <td>{planet.population}</td>
-              <td>{planet.films}</td>
-              <td>{planet.created}</td>
-              <td>{planet.edited}</td>
-              <td>{planet.url}</td>
-            </tr>
-          ))
-        }
-        {console.log(trataDados())}
-        {console.log(planets, multiFilters)}
-      </tbody>
-    </table>
+    <>
+      { buttonFilter.map((filtros, index) => (
+        <span key={ index }>
+          <div>
+            {filtros.coluna}
+            {' '}
+            {filtros.comparison}
+            {' '}
+            {filtros.value}
+            {' '}
+            <button type="button">Remover</button>
+          </div>
+        </span>))}
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Rotation Period</th>
+            <th>Orbital Period</th>
+            <th>Diameter</th>
+            <th>Climate</th>
+            <th>Gravity</th>
+            <th>Terrain</th>
+            <th>Surface Water</th>
+            <th>Population</th>
+            <th>Films</th>
+            <th>Created</th>
+            <th>Edited</th>
+            <th>URL</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            trataDados().map((planet) => (
+              <tr key={ planet.created }>
+                <td>{planet.name}</td>
+                <td>{planet.rotation_period}</td>
+                <td>{planet.orbital_period}</td>
+                <td>{planet.diameter}</td>
+                <td>{planet.climate}</td>
+                <td>{planet.gravity}</td>
+                <td>{planet.terrain}</td>
+                <td>{planet.surface_water}</td>
+                <td>{planet.population}</td>
+                <td>{planet.films}</td>
+                <td>{planet.created}</td>
+                <td>{planet.edited}</td>
+                <td>{planet.url}</td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </>
   );
 }

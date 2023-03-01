@@ -9,7 +9,16 @@ export function PlanetsProvider({ children }) {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
   const [buttonFilter, setButtonFilter] = useState([]);
-  const [multiFilters, setMultiFilters] = useState([]);
+  const [arrayColumn, setArrayColumn] = useState(
+    [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
+  );
+
   function getApi() {
     fetch('https://swapi.dev/api/planets')
       .then((response) => response.json())
@@ -36,9 +45,9 @@ export function PlanetsProvider({ children }) {
     setValue,
     buttonFilter,
     setButtonFilter,
-    multiFilters,
-    setMultiFilters,
-  }), [planets, pesquisa, coluna, comparison, value, buttonFilter, multiFilters]);
+    arrayColumn,
+    setArrayColumn,
+  }), [planets, pesquisa, coluna, comparison, value, buttonFilter, arrayColumn]);
   return (
     <PlanetsContext.Provider value={ values }>
       {children}
