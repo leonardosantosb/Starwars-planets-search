@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export function PlanetsProvider({ children }) {
@@ -9,6 +9,7 @@ export function PlanetsProvider({ children }) {
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
   const [buttonFilter, setButtonFilter] = useState([]);
+  const [planetsHander, setPlanetsHander] = useState([]);
   const [arrayColumn, setArrayColumn] = useState(
     [
       'population',
@@ -28,8 +29,12 @@ export function PlanetsProvider({ children }) {
           return result;
         });
         setPlanets(planetas);
+        setPlanetsHander(planetas);
       });
   }
+  useEffect(() => {
+    getApi();
+  }, []);
 
   const values = useMemo(() => ({
     getApi,
@@ -47,7 +52,10 @@ export function PlanetsProvider({ children }) {
     setButtonFilter,
     arrayColumn,
     setArrayColumn,
-  }), [planets, pesquisa, coluna, comparison, value, buttonFilter, arrayColumn]);
+    planetsHander,
+    setPlanetsHander,
+  }), [planets,
+    pesquisa, coluna, comparison, value, buttonFilter, arrayColumn, planetsHander]);
   return (
     <PlanetsContext.Provider value={ values }>
       {children}

@@ -4,15 +4,13 @@ import PlanetsContext from '../context/PlanetsContext';
 export default function Table() {
   const
     {
-      getApi,
       planets,
       pesquisa,
       buttonFilter,
+      setButtonFilter,
+      planetsHander,
+      setPlanetsHander,
     } = useContext(PlanetsContext);
-
-  useEffect(() => {
-    getApi();
-  }, []);
 
   const trataDados = () => {
     const filterPlanetName = planets.filter((planet) => planet.name.toLowerCase()
@@ -32,23 +30,47 @@ export default function Table() {
       });
       return filterResults.every((el) => el);
     });
-    return filterNameNCondition;
+    console.log(filterNameNCondition);
+    setPlanetsHander(filterNameNCondition);
+  };
+  useEffect(() => {
+    trataDados();
+  }, [buttonFilter, pesquisa]);
+
+  const removeFilters = (value) => {
+    const remove = buttonFilter.filter((btnFilter) => btnFilter !== value);
+    setButtonFilter(remove);
+    console.log(remove);
+    return remove;
   };
 
   return (
     <>
       { buttonFilter.map((filtros, index) => (
         <span key={ index }>
-          <div>
+          <div data-testid="filter">
             {filtros.coluna}
             {' '}
             {filtros.comparison}
             {' '}
             {filtros.value}
             {' '}
-            <button type="button">Remover</button>
+            <button
+              type="button"
+              onClick={ () => removeFilters(filtros) }
+            >
+              Remover
+            </button>
           </div>
         </span>))}
+      <button
+        data-testid="button-remove-filters"
+        type="button"
+        onClick={ () => { setButtonFilter([]); } }
+      >
+        Remove All
+
+      </button>
       <table>
         <thead>
           <tr>
@@ -69,7 +91,7 @@ export default function Table() {
         </thead>
         <tbody>
           {
-            trataDados().map((planet) => (
+            planetsHander.map((planet) => (
               <tr key={ planet.created }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -89,6 +111,7 @@ export default function Table() {
           }
         </tbody>
       </table>
+      {console.log(buttonFilter)}
     </>
   );
 }
