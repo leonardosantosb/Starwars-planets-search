@@ -30,7 +30,6 @@ export default function Table() {
       });
       return filterResults.every((el) => el);
     });
-    console.log(filterNameNCondition);
     setPlanetsHander(filterNameNCondition);
   };
   useEffect(() => {
@@ -40,7 +39,6 @@ export default function Table() {
   const removeFilters = (value) => {
     const remove = buttonFilter.filter((btnFilter) => btnFilter !== value);
     setButtonFilter(remove);
-    console.log(remove);
     return remove;
   };
 
@@ -111,7 +109,6 @@ export default function Table() {
           }
         </tbody>
       </table>
-      {console.log(buttonFilter)}
     </>
   );
 }
