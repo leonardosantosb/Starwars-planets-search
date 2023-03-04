@@ -12,27 +12,25 @@ export default function Table() {
       setPlanetsHander,
     } = useContext(PlanetsContext);
 
-  const trataDados = () => {
-    const filterPlanetName = planets.filter((planet) => planet.name.toLowerCase()
-      .includes(pesquisa.toLowerCase()));
-    const filterNameNCondition = filterPlanetName.filter((plan) => {
-      const filterResults = buttonFilter.map(({ value, comparison, coluna }) => {
-        switch (comparison) {
-        case 'maior que':
-          return Number(plan[coluna]) > Number(value);
-        case 'menor que':
-          return Number(plan[coluna]) < Number(value);
-        case 'igual a':
-          return Number(plan[coluna]) === Number(value);
-        default:
-          return true;
-        }
-      });
-      return filterResults.every((el) => el);
-    });
-    setPlanetsHander(filterNameNCondition);
-  };
   useEffect(() => {
+    const trataDados = () => {
+      const filterPlanetName = planets.filter((planet) => planet.name.toLowerCase()
+        .includes(pesquisa.toLowerCase()));
+      const filterNameNCondition = filterPlanetName.filter((plan) => {
+        const filterResults = buttonFilter.map(({ value, comparison, coluna }) => {
+          switch (comparison) {
+          case 'maior que':
+            return Number(plan[coluna]) > Number(value);
+          case 'menor que':
+            return Number(plan[coluna]) < Number(value);
+          default:
+            return Number(plan[coluna]) === Number(value);
+          }
+        });
+        return filterResults.every((el) => el);
+      });
+      setPlanetsHander(filterNameNCondition);
+    };
     trataDados();
   }, [buttonFilter, pesquisa]);
 
